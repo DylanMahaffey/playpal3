@@ -1,0 +1,109 @@
+<div class="modal-header" ng-controller="chatController">
+    <button type="button" class="close" aria-label="Close" ng-click="fechaModal()" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" style="color: white">{{ getTitle() }}</h4>
+</div>
+<div class="modal-body" style="max-height: 800px;">
+    <div ng-controller="chatController">
+        <!-- inicio -->
+        <div class="container">
+            <div class="row">
+                <link rel="stylesheet" href="css/chat.css">
+                <div class="col-md-5" id="chat_window_1">
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-body msg_container_base">
+                                <div ng-repeat="mensagem in getMensagens()"
+                                     class="row msg_container base_receive">
+                                    <div class="col-md-2 col-xs-2 avatar">
+                                        <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+                                             class=" img-responsive ">
+                                    </div>
+                                    <div class="">
+                                        <div class="messages msg_receive">
+                                            <p>{{ mensagem.text }}</p>
+                                            <time>{{ mensagem.user.name }} {{ mensagem.user.lastname }} • {{ getTime(mensagem) }} min</time>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="input-group">
+                                    <input ng-model="texto" id="btn-input" type="text"
+                                           class="form-control input-sm chat_input"
+                                           placeholder="Write your message here..."/>
+                                    <span class="input-group-btn">
+                        <button ng-click="inserisci(texto)" class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7" style="color: red">
+                    <div style="background: #e5e5e5; height: 354px">
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="active">
+                                <a href="#home" role="tab" data-toggle="tab">
+                                    Game Details
+                                </a>
+                            </li>
+                            <li><a href="#profile" role="tab" data-toggle="tab">
+                                Players
+                            </a>
+                            </li>
+                            <li ng-click="mostraMapa()" ><a href="#mapa-game" role="tab" data-toggle="tab">
+                                Game Map
+                            </a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div style="color: black" class="tab-pane fade active in" id="home">
+                                <div style="margin-left: 14px; margin-top: 6px;">
+                                    <p>Date: {{ getDetailsDate() }}</p>
+                                    <p>Time: {{ getDetailsTime() }}</p>
+                                    <p>Address: {{ getGame().street }}, {{ getGame().city }}</p>
+                                    <p>Gender: {{ getGame().gender }}</p>
+                                    <p>Intensity: {{ getGame().intensityLevel }}</p>
+                                    <p># of Spots: {{ getGame().numberOfPlayers - 1 }}</p>
+                                    <p>Shirt color #1: {{ getGame().shirtColorOne }}</p>
+                                    <p>Shirt color #2: {{ getGame().shirtColorTwo }}</p>
+                                    <p>Other Details: {{ getGame().otherDetails }}</p>
+                                </div>
+                            </div>
+                            <div style="color: black" class="tab-pane fade" id="profile">
+                                <div style="margin-left: 14px; margin-top: 6px;">
+                                    <p ng-repeat="player in getPlayers() track by $index">
+                                        {{ $index + 1}}. {{ player }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div  class="tab-pane fade" id="mapa-game">
+                                <div ng-if="showMap">
+                                    <ng-map center="[{{ getGame().lat }}, {{ getGame().long }}]" zoom-control="true" zoom="16">
+                                        <marker position="[{{getGame().lat}}, {{getGame().long}}]" title="{{ getGame().name }}"></marker>
+                                    </ng-map>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- fim -->
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <h5 style="text-align: center; color: white">Invite your friends to play</h5>
+            <div class="social_buttons" style="left: 0%; top: 0%; bottom: 20%">
+                <i class="fa fa-share-alt-square social_bt" aria-hidden="true"></i>
+                <i class="fa fa-twitter-square social_bt" aria-hidden="true"></i>
+                <i class="fa fa-facebook-square social_bt" aria-hidden="true"></i>
+                <i class="fa fa-envelope-square social_bt" aria-hidden="true"></i>
+            </div>
+        </div>
